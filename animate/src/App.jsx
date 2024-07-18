@@ -1,28 +1,42 @@
 /* eslint-disable react/no-unknown-property */
 
+import { useEffect, useRef } from "react";
 import "./App.css";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { PerspectiveCamera } from "@react-three/drei";
+import gsap from "gsap";
+
 
 function App() {
-  // const [count, setCount] = useState(0)
 
+  const groupRef = useRef();
+  const meshRef1 = useRef();
+   useEffect(() => {
+    gsap.to(groupRef.current.position, {
+      duration: 1,
+      delay: 1,
+      x: 2,
+      repeat: -1,
+      yoyo: true,
+    })},[]);
+  useFrame(() => {
+    // groupRef.current.rotation.x += 1 * delta
+    // const elapsedTime = clock.getElapsedTime();
+    groupRef.current.rotation.y += 0.1;
+    // meshRef1.current.position.y = Math.sin(elapsedTime);
+    // meshRef1.current.position.x = Math.cos(elapsedTime);
+  })
 
   return (
-    <Canvas
-      style={{ height: "100vh" }}
-      
-    >
-      <axesHelper 
-      args={[10]}
-      
-      />
+     
       <group
-      position={[1,1,0]}
+      ref={groupRef}
+      // position={[1,1,0]}
       scale={[0.5,0.5,0.5]}
-      rotation={[Math.PI / 4, Math.PI / 4, 0]}
+      
       >
+        <axesHelper args={[5]} />
         <mesh
+        ref={meshRef1}
           scale={[1, 1, 1]}
           position={[-7, 0, 0]}
            
@@ -43,7 +57,7 @@ function App() {
           <meshBasicMaterial color={"red"} />
         </mesh>
       </group>
-    </Canvas>
+  
   );
 }
 
